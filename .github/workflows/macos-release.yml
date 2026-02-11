@@ -42,9 +42,9 @@ jobs:
           security import ./resources/certificates/developer_id_app.p12 -k build.keychain -P ${{ secrets.APPLE_CERTIFICATE_PASSWORD }} -T /usr/bin/codesign
           security set-key-partition-list -S apple-tool:,apple: -s -k stremioservice build.keychain
           security find-identity -v
-      - name: Sign app
-        run: |
-          codesign --deep --force --verbose --sign "$APP_IDENTITY" --entitlements ./resources/entitlements.plist --options runtime target/macos/StremioService.app
+#      - name: Sign app
+#        run: |
+#          codesign --deep --force --verbose --sign "$APP_IDENTITY" --entitlements ./resources/entitlements.plist --options runtime target/macos/StremioService.app
       - name: Compress app
         run: |
           ditto -c -k --sequesterRsrc --keepParent target/macos/StremioService.app target/macos/StremioService.app.zip
@@ -64,9 +64,9 @@ jobs:
         run: |
           appdmg ./resources/appdmg.json "target/macos/StremioService.dmg"
       
-      - name: Sign DMG
-        run: |
-          codesign --deep --force --verbose --sign "$APP_IDENTITY" target/macos/StremioService.dmg
+#      - name: Sign DMG
+#        run: |
+#          codesign --deep --force --verbose --sign "$APP_IDENTITY" target/macos/StremioService.dmg
   
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
