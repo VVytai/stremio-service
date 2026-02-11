@@ -45,20 +45,20 @@ jobs:
 #      - name: Sign app
 #        run: |
 #          codesign --deep --force --verbose --sign "$APP_IDENTITY" --entitlements ./resources/entitlements.plist --options runtime target/macos/StremioService.app
-      - name: Compress app
-        run: |
-          ditto -c -k --sequesterRsrc --keepParent target/macos/StremioService.app target/macos/StremioService.app.zip
-      - name: Notarize app
-        env:
-          NOTARIZATION_PWD: ${{ secrets.APPLE_DEVACCOUNT_NOTARIZATION_APP_SPECIFIC_PWD }}
-          TEAM_ID: ${{ secrets.TEAM_ID }}
-        run: |
-          echo "Create keychain profile"
-          xcrun notarytool store-credentials "notarytool-profile" --apple-id "ivo@linvo.com" --team-id "$TEAM_ID" --password "$NOTARIZATION_PWD"
-          echo "Notarize app"
-          xcrun notarytool submit target/macos/StremioService.app.zip --keychain-profile "notarytool-profile" --wait
-          echo Stapling the app...
-          xcrun stapler staple "target/macos/StremioService.app"
+#      - name: Compress app
+#        run: |
+#          ditto -c -k --sequesterRsrc --keepParent target/macos/StremioService.app target/macos/StremioService.app.zip
+#      - name: Notarize app
+#        env:
+#          NOTARIZATION_PWD: ${{ secrets.APPLE_DEVACCOUNT_NOTARIZATION_APP_SPECIFIC_PWD }}
+#          TEAM_ID: ${{ secrets.TEAM_ID }}
+#        run: |
+#          echo "Create keychain profile"
+#          xcrun notarytool store-credentials "notarytool-profile" --apple-id "ivo@linvo.com" --team-id "$TEAM_ID" --password "$NOTARIZATION_PWD"
+#          echo "Notarize app"
+#          xcrun notarytool submit target/macos/StremioService.app.zip --keychain-profile "notarytool-profile" --wait
+#          echo Stapling the app...
+#          xcrun stapler staple "target/macos/StremioService.app"
 
       - name: Package
         run: |
